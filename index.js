@@ -25,7 +25,6 @@ app.all('*', (req, res) => {
             host: glpiUrl,
             path: '/apirest.php/initSession?get_full_session=true',
             method: 'GET',
-            rejectUnauthorized : false,
             headers: {
                 'Content-Type' : 'application/json',
                 'Authorization': userToken,
@@ -81,10 +80,12 @@ function proxyRequest(originalReq, originalRes, token, glpiUrl) {
             const killOptions = {
                 hostname: glpiUrl,
                 path: '/apirest.php/killSession',
-                rejectUnauthorized : false,
                 method: 'GET',
                 headers: {
-                    'Session-Token': token,
+                    'Content-Type' : 'application/json',
+                    'Authorization': userToken,
+                    'App-Token': appToken,
+                    'Session-Token': token
                 },
             };
 
