@@ -25,6 +25,7 @@ app.all('*', (req, res) => {
             host: glpiUrl,
             path: '/apirest.php/initSession?get_full_session=true',
             method: 'GET',
+            rejectUnauthorized:false,
             headers: {
                 'Content-Type' : 'application/json',
                 'Authorization': userToken,
