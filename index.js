@@ -85,7 +85,7 @@ function proxyRequest(originalReq, originalRes, token, glpiUrl, appToken) {
                 method: 'GET',
                 headers: {
                     'Content-Type' : 'application/json',
-                    'Authorization': userToken,
+                    /*'Authorization': userToken,*/
                     'App-Token': appToken,
                     'Session-Token': token
                 },
