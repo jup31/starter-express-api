@@ -4,26 +4,30 @@ const http = require('http');
 const app = express();
 app.use(express.json());
 
-// Remplacez par vos propres valeurs
-const GLPI_USERNAME = 'glpi_user';
-const GLPI_PASSWORD = 'glpi_password';
-
 // Route de proxy
 app.all('*', (req, res) => {
     // URL GLPI
     const glpiUrl = req.body.url_path;
 
     // Vérification de l'existence du session_token
-    const sessionToken = req.body.session_token || null;
+    const sessionToken = req.header('Session-Token') || null;
 
     if (!sessionToken) {
         // initSession
+        const userToken = req.header('Authorization');
+        const appToken = req.header('App-Token');
+
+        if (!userToken || !appToken) {
+            return res.status(400).send('Le token d\'utilisateur ou le token d\'application n\'est pas fourni.');
+        }
+
         const initOptions = {
             hostname: glpiUrl,
-            path: '/initSession',
+            path: '/initSession?get_full_session=true',
             method: 'GET',
             headers: {
-                'Authorization': 'Basic ' + Buffer.from(GLPI_USERNAME + ':' + GLPI_PASSWORD).toString('base64')
+                'Authorization': userToken,
+                'App-Token': appToken
             }
         };
 
@@ -34,6 +38,7 @@ app.all('*', (req, res) => {
             });
             initRes.on('end', () => {
                 try {
+                    return res.status(500).send('Erreur youpi:'+data);
                     const parsedData = JSON.parse(data);
                     const token = parsedData.session_token;
                     proxyRequest(req, res, token, glpiUrl);
