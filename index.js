@@ -22,7 +22,7 @@ app.all('*', (req, res) => {
         }
 
         const initOptions = {
-            hostname: glpiUrl+initSession,
+            hostname: glpiUrl+"/initSession",
             /*path: '/initSession?get_full_session=true',*/
             method: 'GET',
             headers: {
