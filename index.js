@@ -41,7 +41,7 @@ app.all('*', (req, res) => {
                 try {
                     const parsedData = JSON.parse(data);
                     const token = parsedData.session_token;
-                    proxyRequest(req, res, token, glpiUrl);
+                    proxyRequest(req, res, token, glpiUrl, appToken);
                 } catch (err) {
                     return res.status(500).send('Erreur lors de l\'initialisation de la session GLPI1: ' + err.message);
                 }
@@ -54,11 +54,11 @@ app.all('*', (req, res) => {
 
         initReq.end();
     } else {
-        proxyRequest(req, res, sessionToken, glpiUrl);
+        proxyRequest(req, res, sessionToken, glpiUrl, appToken);
     }
 });
 
-function proxyRequest(originalReq, originalRes, token, glpiUrl) {
+function proxyRequest(originalReq, originalRes, token, glpiUrl, appToken) {
     const options = {
         host: glpiUrl,
         path: '/apirest.php/getMyEntities',
