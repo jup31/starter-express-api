@@ -60,8 +60,8 @@ app.all('*', (req, res) => {
 
 function proxyRequest(originalReq, originalRes, token, glpiUrl) {
     const options = {
-        hostname: glpiUrl,
-        path: originalReq.path,
+        host: glpiUrl,
+        path: '/apirest.php//getMyEntities',
         /*rejectUnauthorized : false,*/
         method: originalReq.method,
         headers: {
