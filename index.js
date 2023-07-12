@@ -61,7 +61,7 @@ app.all('*', (req, res) => {
 function proxyRequest(originalReq, originalRes, token, glpiUrl, appToken) {
     const options = {
         host: glpiUrl,
-        path: '/apirest.php/getMyEntities',
+        path: '/apirest.php/Computer/?expand_dropdowns=true'',
         /*rejectUnauthorized : false,*/
         method: originalReq.method,
         headers: {
