@@ -62,11 +62,13 @@ function proxyRequest(originalReq, originalRes, token, glpiUrl) {
     const options = {
         hostname: glpiUrl,
         path: originalReq.path,
-        rejectUnauthorized : false,
+        /*rejectUnauthorized : false,*/
         method: originalReq.method,
         headers: {
-            'Session-Token': token,
-            ...originalReq.headers,
+            'Content-Type' : 'application/json',
+            'Authorization': userToken,
+            'App-Token': appToken
+            'Session-Token': token
         },
     };
 
