@@ -39,10 +39,10 @@ app.all('*', (req, res) => {
             });
             initRes.on('end', () => {
                 try {
-                    return res.status(500).send('Erreur youpi:'+data);
-                    const parsedData = JSON.parse(data);
+                    return res.status(200).send('Erreur youpi:'+data);
+                    /*const parsedData = JSON.parse(data);
                     const token = parsedData.session_token;
-                    proxyRequest(req, res, token, glpiUrl);
+                    proxyRequest(req, res, token, glpiUrl);*/
                 } catch (err) {
                     return res.status(500).send('Erreur lors de l\'initialisation de la session GLPI: ' + err.message);
                 }
