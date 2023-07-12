@@ -23,7 +23,7 @@ app.all('*', (req, res) => {
 
         const initOptions = {
             host: glpiUrl,
-            path: '/initSession?get_full_session=true',
+            path: '/apirest.php/initSession?get_full_session=true',
             method: 'GET',
             headers: {
                 'Content-Type' : 'application/json',
