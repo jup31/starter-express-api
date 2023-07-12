@@ -25,7 +25,7 @@ app.all('*', (req, res) => {
             host: glpiUrl,
             path: '/apirest.php/initSession?get_full_session=true',
             method: 'GET',
-            rejectUnauthorized:false,
+            rejectUnauthorized : false,
             headers: {
                 'Content-Type' : 'application/json',
                 'Authorization': userToken,
@@ -63,6 +63,7 @@ function proxyRequest(originalReq, originalRes, token, glpiUrl) {
     const options = {
         hostname: glpiUrl,
         path: originalReq.path,
+        rejectUnauthorized : false,
         method: originalReq.method,
         headers: {
             'Session-Token': token,
@@ -79,7 +80,8 @@ function proxyRequest(originalReq, originalRes, token, glpiUrl) {
             // killSession
             const killOptions = {
                 hostname: glpiUrl,
-                path: '/killSession',
+                path: '/apirest.php/killSession',
+                rejectUnauthorized : false,
                 method: 'GET',
                 headers: {
                     'Session-Token': token,
@@ -88,7 +90,7 @@ function proxyRequest(originalReq, originalRes, token, glpiUrl) {
 
             const killReq = http.request(killOptions);
             killReq.on('error', (error) => {
-                console.log('Erreur lors de la fermeture de la session GLPI: ' + error.message);
+                console.log('Erreur lors de la fermeture de la session GLPI3: ' + error.message);
             });
 
             killReq.end();
