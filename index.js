@@ -7,7 +7,7 @@ app.use(express.json());
 // Route de proxy
 app.all('*', (req, res) => {
     // URL GLPI
-    const glpiUrl = req.body.url_path;
+    const glpiUrl = req.header('url_path');
 
     // Vérification de l'existence du session_token
     const sessionToken = req.header('Session-Token') || null;
