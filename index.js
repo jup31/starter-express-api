@@ -26,6 +26,7 @@ app.all('*', (req, res) => {
             path: '/initSession?get_full_session=true',
             method: 'GET',
             headers: {
+                'Content-Type' : 'application/json',
                 'Authorization': userToken,
                 'App-Token': appToken
             }
