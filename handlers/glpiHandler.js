@@ -50,7 +50,7 @@ async function handleRequest(req, res) {
 
 // Fonction pour récupérer la liste des items depuis l'API GLPI et l'envoyer au client
 async function proxyRequest(originalReq, originalRes, sessionToken, glpiUrl, appToken, itemType) {
-    
+    let itemListResponse ;
     // Requête GET à l'API GLPI : liste des items
     try {
         const options = {
@@ -63,7 +63,7 @@ async function proxyRequest(originalReq, originalRes, sessionToken, glpiUrl, app
             }
         };
 
-        const itemListResponse = await axios(options);
+        itemListResponse = await axios(options);
     
     } catch (error) {
         if (error.response) {
