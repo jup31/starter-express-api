@@ -78,7 +78,7 @@ async function proxyRequest(originalReq, originalRes, sessionToken, glpiUrl, app
         // Envoie la réponse au client
         originalRes.json(proxyResponse.data);
     } catch (error) {
-        return originalRes.status(500).send("Erreur lors de la requête principale: " + error.message + sessionToken);
+        return originalRes.status(500).send("Erreur lors de la requête principale: " + error.message + "retour requete : " + error.response.data + "Session-Token : " + sessionToken);
     }
 }
 
