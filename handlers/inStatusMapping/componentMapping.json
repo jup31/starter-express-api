@@ -1,0 +1,120 @@
+{
+    "components": [
+        {
+            "name": "MAIL",
+            "id": "ckf01fvnxywz50a35nh1qzssm"
+        },
+        {
+            "name": "TELEPHONIE",
+            "id": "clfi3l4dz271346hpn8hk7tv7rd"
+        },
+        {
+            "name": "HYDRACLIC",
+            "id": "clfhzpxxf207456hwn8chrxxe8g"
+        },
+        {
+            "name": "INTRANET",
+            "id": "clfhzpxxn207466hwn85kf6mxtj"
+        },
+        {
+            "name": "OXIO",
+            "id": "clfhzpxxv207476hwn8g9vrdwja"
+        },
+        {
+            "name": "CIVIL",
+            "id": "clfhzpy05207536hwn8rh9n0mfv"
+        },
+        {
+            "name": "LOCALBUDGET",
+            "id": "clfhzpy0e207546hwn8e09jgi1o"
+        },
+        {
+            "name": "E-TEMPTATION",
+            "id": "clfhzpy0m207556hwn8ni7rq9q7"
+        },
+        {
+            "name": "KIMOCE",
+            "id": "clfhzpy24207606hwn83f9yyzfh"
+        },
+        {
+            "name": "QGIS",
+            "id": "clfhzpxwy207436hwn8jtb6nunh"
+        },
+        {
+            "name": "START",
+            "id": "clfhzpxwi207416hwn8lctvxguw"
+        },
+        {
+            "name": "GEOCONCEPT",
+            "id": "clfhzpxwp207426hwn830j8umbs"
+        },
+        {
+            "name": "LIZMAP",
+            "id": "clfhzpxx7207446hwn87k0q0d1t"
+        },
+        {
+            "name": "MYSTART+",
+            "id": "clfhzsj0z208587hwn846admwun"
+        },
+        {
+            "name": "LEGO",
+            "id": "clfhzsq26208726hwn8dm6q2imb"
+        },
+        {
+            "name": "PFLAU",
+            "id": "clfi0rf1p225242hpn8999dxnay"
+        },
+        {
+            "name": "AML",
+            "id": "clfi0rinc221293iin8348r72ng"
+        },
+        {
+            "name": "GVR",
+            "id": "clfi0rp5p221500iin85vsp16fb"
+        },
+        {
+            "name": "INPT",
+            "id": "clhqaycs4075808omjctllrmg"
+        },
+        {
+            "name": "GENESYS",
+            "id": "clfhzpxy2207486hwn8fa02j1ue"
+        },
+        {
+            "name": "WEBDAG",
+            "id": "clfhzpxya207496hwn8c26t0m7y"
+        },
+        {
+            "name": "WEBACT",
+            "id": "clfhzpxzd207506hwn8e06lkwe7"
+        },
+        {
+            "name": "DIADEME",
+            "id": "clfhzpxzq207516hwn8hdw59555"
+        },
+        {
+            "name": "GEREMI",
+            "id": "clfhzpxzy207526hwn8knb419a0"
+        },
+        {
+            "name": "I-PARAPHEUR",
+            "id": "clfhzpy0v207566hwn8fnod8dxh"
+        },
+        {
+            "name": "I-DELIBRE",
+            "id": "clfhzpy17207576hwn8g9kfb3eo"
+        },
+        {
+            "name": "PASTELL",
+            "id": "clfhzpy1g207586hwn8q3btcnud"
+        },
+        {
+            "name": "S2LOW",
+            "id": "clfhzpy1v207596hwn8ngnteu0e"
+        },
+        {
+            "name": "APICRYPT",
+            "id": "clfi3juhp267055iin8pfwxicr5"
+        }
+    ]
+}
