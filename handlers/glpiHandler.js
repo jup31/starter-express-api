@@ -91,7 +91,7 @@ async function proxyRequest(originalReq, originalRes, sessionToken, glpiUrl, app
             }
         }; 
         // Requête GET pour tuer la session
-        const proxyResponse = await axios(killOptions);
+        await axios(killOptions);
 
         // Envoie la réponse au client
         originalRes.json(proxyResponse.data);
