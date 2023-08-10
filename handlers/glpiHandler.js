@@ -81,7 +81,6 @@ async function proxyRequest(originalReq, originalRes, sessionToken, glpiUrl, app
     // Requête GET à l'API killSession de GLPI
     try {
         
-       
         const killOptions = {
             url: `https://${glpiUrl}/apirest.php/killSession`,
             method: originalReq.method,
@@ -90,9 +89,9 @@ async function proxyRequest(originalReq, originalRes, sessionToken, glpiUrl, app
                 'App-Token': appToken,
                 'Session-Token': sessionToken,
             }
-        };
+        }; 
         // Requête GET pour tuer la session
-        await axios(killOptions);
+        const proxyResponse = await axios(killOptions);
 
         // Envoie la réponse au client
         originalRes.json(proxyResponse.data);
