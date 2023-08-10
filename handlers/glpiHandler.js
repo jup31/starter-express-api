@@ -103,7 +103,10 @@ async function proxyRequest(originalReq, originalRes, sessionToken, glpiUrl, app
     }
 
      // renvoyer les données que l'on a reçues de GLPI dans la réponse au client
+     console.log("proxyResponse.data :"+proxyResponse.data);
+     console.log("proxyResponse :"+JSON.stringify(proxyResponse));
      originalRes.json(proxyResponse.data);
+
 
 }
 
