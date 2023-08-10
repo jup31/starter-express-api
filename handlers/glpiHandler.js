@@ -66,7 +66,6 @@ async function proxyRequest(originalReq, originalRes, sessionToken, glpiUrl, app
         // Requête GET à l'API killSession de GLPI
         const killOptions = {
             url: `https://${glpiUrl}/apirest.php/killSession`,
-            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'App-Token': appToken,
@@ -74,12 +73,12 @@ async function proxyRequest(originalReq, originalRes, sessionToken, glpiUrl, app
             }
         };
         // Requête GET pour tuer la session
-        await axios(killOptions);
+        await axios.get(killOptions);
 
         // Envoie la réponse au client
         originalRes.json(proxyResponse.data);
     } catch (error) {
-        return originalRes.status(500).send("Erreur lors de la requête principale: " + error.message);
+        return originalRes.status(500).send("Erreur lors de la requête principale: " + error.message + sessionToken);
     }
 }
 
