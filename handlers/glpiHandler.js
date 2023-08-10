@@ -34,7 +34,7 @@ async function handleRequest(req, res) {
                          'Content-Type': 'application/json',
                          'Authorization': userToken,
                          'App-Token': appToken,
-                     },
+                     }
                  }
              );
  
@@ -63,7 +63,7 @@ async function proxyRequest(originalReq, originalRes, sessionToken, glpiUrl, app
             }
         };
 
-        const proxyResponse = await axios(options);
+        const itemListResponse = await axios(options);
     
     } catch (error) {
         if (error.response) {
@@ -103,10 +103,7 @@ async function proxyRequest(originalReq, originalRes, sessionToken, glpiUrl, app
     }
 
      // renvoyer les données que l'on a reçues de GLPI dans la réponse au client
-     console.log("proxyResponse.data :"+proxyResponse.data);
-     originalRes.json(proxyResponse.data);
-
-
+     originalRes.json(itemListResponse.data);
 }
 
 module.exports = {
