@@ -28,13 +28,13 @@ async function handleRequest(req, res) {
         components: ['clfhzpxw9207406hwn8285t1x7o'],
         started: new Date(incidentData.fields.created).toISOString(),
         status: 'INVESTIGATING', // Utilisation d'un statut prédéfini pour INVESTIGATING
-        notify: true // Vous pouvez adapter ceci en fonction de vos besoins
-        /*statuses: [
+        notify: true, // Vous pouvez adapter ceci en fonction de vos besoins
+        statuses: [
             {
-                id: incidentData.status.id,
+                id: 'ckf01fvnxywz50a35nh1qzssm',
                 status: 'OPERATIONAL' // Utilisation d'un statut prédéfini pour OPERATIONAL
             }
-        ]*/
+        ]
     };
 
     try {
@@ -50,7 +50,7 @@ async function handleRequest(req, res) {
          res.status(response.status).json(response.data);
         } catch (error) {
             console.error("Erreur lors de la mise à jour de l'incident sur inStatus:", error);
-            res.status(500).send("Une erreur s'est produite lors de la mise à jour de l'incident sur inStatus : " + error.message);
+            res.status(500).send("Une erreur s'est produite lors de la mise à jour de l'incident sur inStatus.");
         }
 
     
