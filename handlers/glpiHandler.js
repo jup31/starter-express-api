@@ -39,9 +39,9 @@ async function handleRequest(req, res) {
              );
  
              const sessionToken = initResponse.data.session_token;
-             await proxyRequest(req, res, token, glpiUrl, appToken);
+             await proxyRequest(req, res, sessionToken, glpiUrl, appToken);
          } catch (err) {
-             return res.status(500).send("Erreur lors de l'initialisation de la session GLPI1: " + err.message);
+             return res.status(500).send("Erreur lors de l'initialisation de la session GLPI: " + err.message);
          }
      } else {
          await proxyRequest(req, res, sessionToken, glpiUrl, appToken);
