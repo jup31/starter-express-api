@@ -39,17 +39,17 @@ async function handleRequest(req, res) {
              );
  
              const sessionToken = initResponse.data.session_token;
-             await proxyRequest(req, res, sessionToken, glpiUrl, appToken);
+             await proxyRequest(req, res, sessionToken, glpiUrl, appToken, itemType);
          } catch (err) {
              return res.status(500).send("Erreur lors de l'initialisation de la session GLPI: " + err.message);
          }
      } else {
-         await proxyRequest(req, res, sessionToken, glpiUrl, appToken);
+         await proxyRequest(req, res, sessionToken, glpiUrl, appToken, itemType);
      }
 }
 
 // Fonction pour récupérer la liste des items depuis l'API GLPI et l'envoyer au client
-async function proxyRequest(originalReq, originalRes, sessionToken, glpiUrl, appToken) {
+async function proxyRequest(originalReq, originalRes, sessionToken, glpiUrl, appToken, itemType) {
     const options = {
         url: `https://${glpiUrl}/apirest.php/${itemType}/?expand_dropdowns=true`,
         method: originalReq.method,
