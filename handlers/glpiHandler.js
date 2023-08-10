@@ -65,8 +65,6 @@ async function proxyRequest(originalReq, originalRes, sessionToken, glpiUrl, app
 
         const proxyResponse = await axios(options);
     
-        // Le reste du code...
-    
     } catch (error) {
         if (error.response) {
             // Si une réponse est renvoyée par le serveur (statut >= 400)
@@ -93,8 +91,6 @@ async function proxyRequest(originalReq, originalRes, sessionToken, glpiUrl, app
         // Requête GET pour tuer la session
         await axios(killOptions);
 
-        // Envoie la réponse au client
-        originalRes.json(proxyResponse.data);
     } catch (error) {
         if (error.response) {
             // Si une réponse est renvoyée par le serveur (statut >= 400)
@@ -105,6 +101,10 @@ async function proxyRequest(originalReq, originalRes, sessionToken, glpiUrl, app
             return originalRes.status(500).send("Erreur lors de la requête killSession: " + error.message);
         }
     }
+
+     // renvoyer les données que l'on a reçues de GLPI dans la réponse au client
+     originalRes.json(proxyResponse.data);
+
 }
 
 module.exports = {
