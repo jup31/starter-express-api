@@ -50,7 +50,7 @@ async function handleRequest(req, res) {
          res.status(response.status).json(response.data);
         } catch (error) {
             console.error("Erreur lors de la mise à jour de l'incident sur inStatus:", error);
-            res.status(500).send("Une erreur s'est produite lors de la mise à jour de l'incident sur inStatus.");
+            res.status(500).send("Une erreur s'est produite lors de la mise à jour de l'incident sur inStatus : ${error.message}");
         }
 
     
