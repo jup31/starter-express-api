@@ -1,117 +1,88 @@
 const express = require('express');
-const http = require('https');
+const axios = require('axios');
 
 const app = express();
 app.use(express.json());
 
 // Route de proxy
-app.all('*', (req, res) => {
-    // URL GLPI
-    const glpiUrl = req.header('url_path');
+app.all('*', async (req, res) => {
+    // Get the glpiUrl from the request and launch the correct error 400 if not found
+    const glpiUrl = req.header('url_path') || null;
+    if (!glpiUrl) {
+        return res.status(400).send("L'URL GLPI n'est pas fournie.");
+    }
 
-    // Vérification de l'existence du session_token
+    // Get the itemType from the request or set it to Computer by default
+    const itemType = req.header('itemType') || 'Computer';
+    
+    // Check if a Session-Token is provided in the request (should not be provided)
     const sessionToken = req.header('Session-Token') || null;
 
     if (!sessionToken) {
-        // initSession
-        const userToken = req.header('Authorization');
-        const appToken = req.header('App-Token');
-
+        // If sessionToken is null, request a new one using initSession GLPI API
+        // Get the userToken and appToken from the request and launch the correct error 400 if not found
+            const userToken = req.header('Authorization') || null;
+            const appToken = req.header('App-Token') || null;
+       
         if (!userToken || !appToken) {
-            return res.status(400).send('Le token d\'utilisateur ou le token d\'application n\'est pas fourni.');
+            return res.status(400).send("Le token d'utilisateur ou le token d'application n'est pas fourni.");
         }
 
-        const initOptions = {
-            host: glpiUrl,
-            path: '/apirest.php/initSession?get_full_session=true',
-            method: 'GET',
-            headers: {
-                'Content-Type' : 'application/json',
-                'Authorization': userToken,
-                'App-Token': appToken
-            }
-        };
-
-        const initReq = http.request(initOptions, (initRes) => {
-            let data = '';
-            initRes.on('data', (chunk) => {
-                data += chunk;
-            });
-            initRes.on('end', () => {
-                try {
-                    const parsedData = JSON.parse(data);
-                    const token = parsedData.session_token;
-                    proxyRequest(req, res, token, glpiUrl, appToken);
-                } catch (err) {
-                    return res.status(500).send('Erreur lors de l\'initialisation de la session GLPI1: ' + err.message);
+        try {
+            const initResponse = await axios.get(
+                `https://${glpiUrl}/apirest.php/initSession?get_full_session=true`,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': userToken,
+                        'App-Token': appToken,
+                    },
                 }
-            });
-        });
+            );
 
-        initReq.on('error', (error) => {
-            return res.status(500).send('Erreur lors de l\'initialisation de la session GLPI2: ' + error.message);
-        });
-
-        initReq.end();
+            const sessionToken = initResponse.data.session_token;
+            await proxyRequest(req, res, token, glpiUrl, appToken);
+        } catch (err) {
+            return res.status(500).send("Erreur lors de l'initialisation de la session GLPI1: " + err.message);
+        }
     } else {
-        proxyRequest(req, res, sessionToken, glpiUrl, appToken);
+        await proxyRequest(req, res, sessionToken, glpiUrl, appToken);
     }
 });
 
-function proxyRequest(originalReq, originalRes, token, glpiUrl, appToken) {
+// Function to get the item list from GLPI API and send it back to the client
+async function proxyRequest(originalReq, originalRes, sessionToken, glpiUrl, appToken) {
     const options = {
-        host: glpiUrl,
-        path: '/apirest.php/Computer/?expand_dropdowns=true',
-        /*rejectUnauthorized : false,*/
+        url: `https://${glpiUrl}/apirest.php/${itemType}/?expand_dropdowns=true`,
         method: originalReq.method,
         headers: {
-            'Content-Type' : 'application/json',
-            /*'Authorization': userToken,*/
+            'Content-Type': 'application/json',
             'App-Token': appToken,
-            'Session-Token': token
+            'Session-Token': sessionToken,
         },
     };
 
-    const proxy = http.request(options, (res) => {
-        let data = '';
-        res.on('data', (chunk) => {
-            data += chunk;
-        });
-        res.on('end', () => {
-            // killSession
-            const killOptions = {
-                hostname: glpiUrl,
-                path: '/apirest.php/killSession',
-                method: 'GET',
-                headers: {
-                    'Content-Type' : 'application/json',
-                    /*'Authorization': userToken,*/
-                    'App-Token': appToken,
-                    'Session-Token': token
-                },
-            };
+    try {
+        const proxyResponse = await axios(options);
 
-            const killReq = http.request(killOptions);
-            killReq.on('error', (error) => {
-                console.log('Erreur lors de la fermeture de la session GLPI3: ' + error.message);
-            });
+        // killSession
+        const killOptions = {
+            url: `https://${glpiUrl}/apirest.php/killSession`,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'App-Token': appToken,
+                'Session-Token': sessionToken,
+            }
+        };
+        // GET request to kill the session
+        await axios(killOptions);
 
-            killReq.end();
-
-            // Send response
-            originalRes.json(JSON.parse(data));
-        });
-    });
-
-    proxy.on('error', (error) => {
-        return originalRes.status(500).send('Erreur lors de la requête principale: ' + error.message);
-    });
-
-    if (originalReq.method === 'POST' || originalReq.method === 'PUT') {
-        proxy.write(JSON.stringify(originalReq.body));
+        // Send response
+        originalRes.json(proxyResponse.data);
+    } catch (error) {
+        return originalRes.status(500).send("Erreur lors de la requête principale: " + error.message);
     }
-
-    proxy.end();
 }
 
 const PORT = process.env.PORT || 3000;
