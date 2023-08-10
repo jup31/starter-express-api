@@ -71,7 +71,7 @@ async function proxyRequest(originalReq, originalRes, sessionToken, glpiUrl, app
         if (error.response) {
             // Si une réponse est renvoyée par le serveur (statut >= 400)
             const responseMessage = error.response.data || 'Aucune réponse du serveur.';
-            return originalRes.status(error.response.status).send(responseMessage);
+            return originalRes.status(error.response.status).send("Erreur lors de la requête principale: " + error.message+ "Response.message :"+responseMessage);
         } else {
             // Si aucune réponse du serveur (ex: erreur de connexion)
             return originalRes.status(500).send("Erreur lors de la requête principale: " + error.message);
@@ -101,7 +101,7 @@ async function proxyRequest(originalReq, originalRes, sessionToken, glpiUrl, app
         if (error.response) {
             // Si une réponse est renvoyée par le serveur (statut >= 400)
             const responseMessage = error.response.data || 'Aucune réponse du serveur.';
-            return originalRes.status(error.response.status).send(responseMessage);
+            return originalRes.status(error.response.status).send("Erreur lors de la requête killSession: " + error.message + "Response.message :" +responseMessage);
         } else {
             // Si aucune réponse du serveur (ex: erreur de connexion)
             return originalRes.status(500).send("Erreur lors de la requête killSession: " + error.message);
