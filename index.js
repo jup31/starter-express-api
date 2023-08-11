@@ -15,6 +15,7 @@ app.all('/glpi', async (req, res) => {
 
 // Endpoint pour les requêtes inStatus
 app.all('/instatus', async (req, res) => {
+    // Traite la requête vers inStatus
     await inStatusHandler.handleRequest(req, res);
 });
 
